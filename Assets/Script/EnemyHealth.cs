@@ -65,6 +65,12 @@ public class EnemyHealth : MonoBehaviour
         
         isDead = true;
         
+        // Notify WinConditionManager that an enemy was killed
+        if (WinConditionManager.Instance != null)
+        {
+            WinConditionManager.Instance.EnemyKilled();
+        }
+        
         // Play death animation
         if (animator != null)
         {

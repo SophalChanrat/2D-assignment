@@ -5,9 +5,11 @@ using UnityEngine.UI;
 
 public class CharacterHealth : MonoBehaviour
 {
+    [Header("Health Settings")]
     public int maxHealth = 4;
     public int currentHealth;
 
+    [Header("UI Hearts")]
     public Image[] hearts;
     public Sprite fullHeart;
     public Sprite emptyHeart;
@@ -16,25 +18,22 @@ public class CharacterHealth : MonoBehaviour
     public float flashDuration = 0.1f;
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
+    private DamageSplash damageSplash;
     
-    // Start is called before the first frame update
     void Start()
     {
         currentHealth = maxHealth;
         UpdateHearts();
         
         spriteRenderer = GetComponent<SpriteRenderer>();
+        damageSplash = GetComponent<DamageSplash>();
+        
         if (spriteRenderer != null)
         {
             originalColor = spriteRenderer.color;
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public void TakeDamage(int amount)
     {
         currentHealth -= amount;
@@ -47,10 +46,18 @@ public class CharacterHealth : MonoBehaviour
 
         UpdateHearts();
         
-        // Flash red when taking damage
-        if (spriteRenderer != null)
+        // Show damage splash effect (same as enemy)
+        if (damageSplash != null)
         {
-            StartCoroutine(FlashRed());
+            damageSplash.ShowDamageSplash();
+        }
+        else
+        {
+            // Fallback to simple flash if no DamageSplash component
+            if (spriteRenderer != null)
+            {
+                StartCoroutine(FlashRed());
+            }
         }
     }
     
@@ -62,14 +69,14 @@ public class CharacterHealth : MonoBehaviour
             GameOverManager.Instance.ShowGameOver();
         }
         
-        // Optional: Disable player controls
+        // Disable player controls
         gameController controller = GetComponent<gameController>();
         if (controller != null)
         {
             controller.enabled = false;
         }
         
-        // Optional: Play death animation
+        // Play death animation
         Animator animator = GetComponent<Animator>();
         if (animator != null)
         {

@@ -84,8 +84,13 @@ public class PauseManager : MonoBehaviour
 
     public void PauseGame()
     {
-        // Don't pause if game is already over
+        // Don't pause if game is already over or won
         if (GameOverManager.Instance != null && GameOverManager.Instance.IsGameOver())
+        {
+            return;
+        }
+        
+        if (WinConditionManager.Instance != null && WinConditionManager.Instance.HasWon())
         {
             return;
         }
