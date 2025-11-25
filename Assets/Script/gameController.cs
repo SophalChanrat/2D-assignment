@@ -5,15 +5,22 @@ using UnityEngine.InputSystem;
 
 public class gameController : MonoBehaviour
 {
+    [Header("Movement Settings")]
     public float moveSpeed = 5f;
-    private Vector2 lastSafePosition;
-    Rigidbody2D rb;
-    TouchingDirection touchingDirection;
-    Animator animator;
-    CharacterHealth characterHealth;
-    Vector2 moveInput;
     public float jumpInpulse = 10f;
+    
+    [Header("Death Settings")]
     public float deathHeight = -10f;
+    
+    private Vector2 lastSafePosition;
+    private Rigidbody2D rb;
+    private TouchingDirection touchingDirection;
+    private Animator animator;
+    private CharacterHealth characterHealth;
+    private PlayerAttack playerAttack;
+    private PlayerSummon playerSummon;
+    private Vector2 moveInput;
+    private bool isFacingRight = true;
 
     public bool isMoving { get; private set; }
 
@@ -23,26 +30,25 @@ public class gameController : MonoBehaviour
         touchingDirection = GetComponent<TouchingDirection>();
         animator = GetComponent<Animator>();
         characterHealth = GetComponent<CharacterHealth>();
+        playerAttack = GetComponent<PlayerAttack>();
+        playerSummon = GetComponent<PlayerSummon>();
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        if(transform.position.y < deathHeight)
+        // Check for falling off the map
+        if (transform.position.y < deathHeight)
         {
             Die();
         }
-        if(touchingDirection.IsGround)
+        
+        // Save last safe position when grounded
+        if (touchingDirection.IsGround)
         {
             lastSafePosition = transform.position;
         }
     }
+    
     private void FixedUpdate()
     {
         rb.velocity = new Vector2(moveInput.x * moveSpeed, rb.velocity.y);
@@ -53,8 +59,31 @@ public class gameController : MonoBehaviour
         moveInput = context.ReadValue<Vector2>();   
 
         isMoving = moveInput != Vector2.zero;
-        animator.SetBool("IsMoving", isMoving);
+        
+        if (animator != null)
+        {
+            animator.SetBool("IsMoving", isMoving);
+        }
+        
+        // Flip the character based on movement direction
+        if (moveInput.x > 0 && !isFacingRight)
+        {
+            Flip();
+        }
+        else if (moveInput.x < 0 && isFacingRight)
+        {
+            Flip();
+        }
     }
+    
+    private void Flip()
+    {
+        isFacingRight = !isFacingRight;
+        Vector3 localScale = transform.localScale;
+        localScale.x *= -1;
+        transform.localScale = localScale;
+    }
+    
     public void OnJump(InputAction.CallbackContext context)
     {
         if (context.started && touchingDirection.IsGround)
@@ -62,20 +91,47 @@ public class gameController : MonoBehaviour
            rb.velocity = new Vector2(rb.velocity.x, jumpInpulse);
         }
     }
+    
     public void Onattack(InputAction.CallbackContext context)
     {
         if (context.started)
         {
-            animator.SetTrigger("Attack");
+            if (animator != null)
+            {
+                animator.SetTrigger("Attack");
+            }
+            
+            // Trigger PlayerAttack if it exists
+            if (playerAttack != null)
+            {
+                playerAttack.OnAttack(context);
+            }
         }
     }
+    
+    public void OnSummon(InputAction.CallbackContext context)
+    {
+        if (context.started && playerSummon != null)
+        {
+            playerSummon.OnSummon();
+        }
+    }
+    
     public void Die()
     {
-        animator.SetTrigger("die");
-        characterHealth.TakeDamage(1);
+        if (animator != null)
+        {
+            animator.SetTrigger("die");
+        }
+        
+        if (characterHealth != null)
+        {
+            characterHealth.TakeDamage(1);
+        }
 
         Respawn();
     }
+    
     void Respawn()
     {
         float offset = 1f;
