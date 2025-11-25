@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,7 +9,9 @@ public class gameController : MonoBehaviour
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
     public float jumpInpulse = 10f;
-    
+    public int maxJumps = 2;
+    private int jumpCount = 0;
+
     [Header("Death Settings")]
     public float deathHeight = -10f;
     
@@ -46,6 +49,7 @@ public class gameController : MonoBehaviour
         if (touchingDirection.IsGround)
         {
             lastSafePosition = transform.position;
+            jumpCount = 0;
         }
     }
     
@@ -86,9 +90,14 @@ public class gameController : MonoBehaviour
     
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.started && touchingDirection.IsGround)
+        if (context.started)
         {
-           rb.velocity = new Vector2(rb.velocity.x, jumpInpulse);
+            // Can jump if grounded, OR if we haven't used all jumps yet
+            if (touchingDirection.IsGround || jumpCount < maxJumps)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, jumpInpulse);
+                jumpCount++;
+            }
         }
     }
     

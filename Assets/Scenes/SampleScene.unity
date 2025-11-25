@@ -273,6 +273,10 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4060603323306856039, guid: 73ca0eb8d8d8d6444b7fe34c500a4056, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4060603323306856039, guid: 73ca0eb8d8d8d6444b7fe34c500a4056, type: 3}
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
@@ -662,6 +666,10 @@ PrefabInstance:
     - target: {fileID: 4060603323306856039, guid: 73ca0eb8d8d8d6444b7fe34c500a4056, type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4060603323306856039, guid: 73ca0eb8d8d8d6444b7fe34c500a4056, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4060603323306856039, guid: 73ca0eb8d8d8d6444b7fe34c500a4056, type: 3}
       propertyPath: m_TagString
@@ -4773,6 +4781,10 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4060603323306856039, guid: 73ca0eb8d8d8d6444b7fe34c500a4056, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4060603323306856039, guid: 73ca0eb8d8d8d6444b7fe34c500a4056, type: 3}
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
@@ -5725,6 +5737,10 @@ PrefabInstance:
     - target: {fileID: 4060603323306856039, guid: 73ca0eb8d8d8d6444b7fe34c500a4056, type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4060603323306856039, guid: 73ca0eb8d8d8d6444b7fe34c500a4056, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4060603323306856039, guid: 73ca0eb8d8d8d6444b7fe34c500a4056, type: 3}
       propertyPath: m_TagString
@@ -6818,7 +6834,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackDamage: 1
-  attackRange: 1.5
+  attackRange: 2.5
   attackPoint: {fileID: 192719135}
   enemyLayers:
     serializedVersion: 2

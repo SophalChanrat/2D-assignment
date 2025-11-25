@@ -146,7 +146,7 @@ public class WinConditionManager : MonoBehaviour
         Time.timeScale = 1f;
         
         // Temporary: reload current scene
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene("MenuScence");
     }
 
     public bool HasWon()

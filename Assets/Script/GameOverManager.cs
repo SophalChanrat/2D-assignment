@@ -98,9 +98,8 @@ public class GameOverManager : MonoBehaviour
     {
         // Resume time
         Time.timeScale = 1f;
-        
-        Debug.Log("Main Menu button pressed - Will go to: " + mainMenuSceneName);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        SceneManager.LoadScene("MenuScence");
     }
 
     public bool IsGameOver()

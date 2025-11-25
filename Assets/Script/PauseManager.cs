@@ -136,7 +136,7 @@ public class PauseManager : MonoBehaviour
         Time.timeScale = 1f;
         
         // Temporary: reload current scene
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene("MenuScence");
     }
 
     public bool IsPaused()
